@@ -1,0 +1,36 @@
+-- 1 React Intro --
+
+	- shift from class-based components to function based stateless components
+	
+	
+	React: JS library for building user interface
+		- 2 main scripts that come with React
+			1) "react" script
+				- builds virtual DOM
+				- describes all the UI components in app
+				
+			2) "react-dom" script
+				- converts virtual DOM to actual HTML components on page
+				
+	ReactNative: 
+		- "react" script & "react-native" script
+		- converts virtual DOM to native components for ios & android 
+		
+	
+	- Starting React Project -
+		1) Create empty directory
+		2) npx create-react-app <projectName> --use-npm / --use-yarn (optional)
+			- gives: "react", "react-dom", "react-scripts"
+				- "react-scripts": To help run production build for project
+				
+				
+	- Project info -
+	
+	"src" folder: Where all the scripts reside
+		*.test.js: called when running tests
+		
+	scripts:
+		- npm start: start react project in browser
+		- npm build: Create production version (need another server to launch)
+		- npm test: to use jest to run test on scripts
+		- npm eject: removes all default packages to create own customized build
