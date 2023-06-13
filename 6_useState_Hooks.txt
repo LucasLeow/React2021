@@ -1,0 +1,158 @@
+- functional components can have states
+
+- in class-based components, had a component called this.state
+	- causes react DOM to re-render whenever this.state changes value
+	
+- in functional components, hooks perform the same thing
+	- there are a bunch of built-in hooks that can be used to manipulate component state
+	- can also built own custom hook
+	
+	
+== useState hook usage ==
+
+
+	1) Go to desired component that requires implementation of state
+		- import { useState } from "react";
+	
+		eg: 
+		import "./SearchBar.css";
+		import { useState } from "react";
+
+		export default function SearchBar(props) {
+			const [search, setSearch] = useState("");
+
+			function submitForm(e) {
+				e.preventDefault();
+				console.log("form submitted");
+				setSearch(e.target['searchContent'].value);
+			}
+			function searchFocus(e) {
+				console.log("textbox focused");
+			}
+			function inputChange(e) {
+				console.log("input by user: ", e.target.value);
+			}
+			function buttonClicked(e) {
+				console.log("button clicked");
+			}
+			return (
+				<section className="searchBar">
+					<form onSubmit={submitForm}>
+						<input type="text" name="searchContent" className="searchText" placeholder="keyword" onFocus={searchFocus} onInput={(ev) => inputChange(ev)}></input>
+						<button type="submit" className="searchBtn" name="searchBtn" onClick={buttonClicked}>Search</button>
+						{search?<p>You searched for {search}</p> : ''}
+					</form>
+				</section>
+			)
+		}
+					
+			
+== Lifting State ==
+	* Must be used in order to utilize state in multiple components
+	
+	- Idea: Declare all states in parent component (eg: App Component)
+	- use props to propagate value down
+	- If want to update value in parent component, write new function to update
+		- pass function via props so that child component can use function to update state
+		
+		- if value is array (eg. used to store history, use spread operator to update)
+		- pass new function down via props, then can use child to call fn to update
+	
+	eg.
+	
+		Parent: App.js (App Component)
+		Child(s) : SearchBar.js & SearchHistory.js 
+		
+		state Variable : searchContent
+		
+		Goal: 
+			- user type searchContent in SearchBar
+			- content propagate upwards to App.js
+			- App.js pass searchContent to SearchHistory to save History
+			
+		Implementation:
+		
+		
+		1) Inside App.js:
+		
+		```
+		import "./App.css";
+		import SearchBar from "../SearchBar/SearchBar";
+		import SearchHistory from "../SearchHistory/SearchHistory";
+		import { useState } from "react";
+		
+		function App() {
+			const [searchContent, setSearchContent] = useState([]);
+		}
+		
+		function appendHistory(search) {
+			setSearchContent([search, ...searchContent]);
+		}
+		
+		return (
+			<div className="App">
+				<SearchBar term={searchContent[0]} addTerm={appendHistory}}/>
+				<SearchHistory history={searchContent}/>
+			</div>
+		)
+		
+		```
+		
+		2) Inside SearchBar.js
+		
+		```
+		import "./SearchBar.css";
+		
+		export default function SearchBar(props) {
+		
+			function searchFocus(e) {
+				console.log("textbox in focus");
+			}
+			
+			function inputContent(e) {
+				console.log("Input by user: ", e.target.value);
+			}
+			
+			function buttonClicked(e) {
+				console.log("Button Clicked");
+			}
+			
+			function submitForm(e) {
+				console.log("form submitted");
+				props.addTerm(e.target['searchContent'].value);
+				// target['searchContent'] because "name" attribute in <input> is 'searchContent'
+			}
+			
+			return (
+				<section className="searchBar">
+					<form onSubmit={submitForm}>
+						<input type="text" name="searchContent" className="searchText" placeholder="keyword" onFocus={searchFocus} onInput={(ev)=>inputContent(ev)}></input>
+						
+						<button type="submit" className="searchBtn" name="searchBtn" onClick={buttonClicked}> Search </button>
+					</form>
+					
+					{props.term?<p>You searched for {props.term}</p>: ""}
+				</section>
+			)
+		}
+		
+		```
+		
+		3) Inside SearchHistory.js
+		
+		```
+		import "./SearchHistory.css";
+		
+		export default function SearchHistory(props) {
+			return (
+			<>
+				<h4> Search History </h4>
+				<ul>
+					{props.history.map((search, idx) => (
+					<li key={idx}> {search} </li>
+					))}
+				</ul>
+			</>
+			)
+		}
+		```

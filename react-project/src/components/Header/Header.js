@@ -5,7 +5,6 @@ export default function Header() {
     return (
         <header className="header1" onClick={(e)=>console.log(e.type)}>
             <Nav />
-            Click here
         </header>
     )
 }

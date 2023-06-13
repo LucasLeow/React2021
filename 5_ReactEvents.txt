@@ -65,7 +65,6 @@
 			console.log("input by user: ", e.target.value);
 		}
 		function buttonClicked(e) {
-			e.preventDefault();
 			console.log("button clicked");
 		}
 		return (
@@ -78,6 +77,12 @@
 		)
 	}
 	
+	** inside <input> tag & <button> tag, there is attribute called "name"
+		- "name" used instead of "id"
+		- when submit form to server, needs "name" property
+		- id is connection to CSS / JS / HTML nav
+		- in react, main focus is not connecting to CSS / JS / HTML nav
+		- using name property will allow form to render faster
 	
 	** Refer to documentation for different types of React Events to be applied on HTML elements
 	(https://legacy.reactjs.org/docs/events.html)
