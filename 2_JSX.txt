@@ -1,0 +1,88 @@
+Setting up for lesson:
+
+	1) Inside index.js: 
+		- remove "import reportWebVitals from './reportWebVitals';"
+		- remove "reportWebVitals();"
+		- remove <React.StrictMode>
+		
+	2) Inside App.css (only have below, remove the rest)
+		.App {
+		  text-align: center;
+		  background-color: #282c34;
+		  min-height: 100vh;
+		  padding: 2rem;
+		  color: white;
+		}
+		
+	3) Inside App.js
+		import './App.css';
+
+		function App() {
+		  return (
+			<div className="App">
+			</div>
+		  );
+		}
+
+		export default App;
+		
+		
+== Lesson Start ==
+
+	- JSX typically written in React components
+	
+	- React Components are JS functions that return JSX expressions
+		- if multiple lines to return, need to include parenthesis
+		
+	- Function name corresponds to the React component name
+	
+	- JSX only can have 1 top-level tag (div is the top level tag), cannot have 2 <div> same level
+		i.e return (
+			<div> 
+			
+			</div>
+		)
+		
+	- React Fragment tag typically used to prevent clutter of HTML top level tags
+		<> </> or <React.Fragment> </React.Fragment>
+		- does not inject additional HTML tag into webpage
+		
+	- Naming convention of CSS properties different in JS
+		- Some names reserved keywords in JS
+			eg: <div class="container1"> in typical CSS invalid
+				- "class" is reserved keyword in JS
+				- therefore, must use "className" instead
+				
+		- In general, all CSS properties with - are replaced with camel case
+		
+			eg:
+			CSS Property 				JavaScript Reference
+			background 					background
+			background-attachment 		backgroundAttachment
+			background-color 			backgroundColor
+			background-image 			backgroundImage
+			class						className
+			
+
+== JSX Example ==
+
+	* Inside "App" component (App.js)
+	
+	import "./App.css";
+	
+	function App() {
+	
+		let AppClassName = "App";
+		return (
+			<>
+				<div className={AppClassName}> // JSX template using {} without $
+					<h1> Hello World </h1>
+				</div>
+				
+				<div> Goodbye </div>
+				
+				<label htmlFor="x">Name</label> // in html, simply "for=", but "for" reserved in JS
+				<input id="x"></input>
+			</>
+		)
+	}
