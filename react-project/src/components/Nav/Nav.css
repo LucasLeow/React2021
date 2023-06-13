@@ -1,0 +1,16 @@
+a:link, a:visited {
+  background-color: white;
+  color: black;
+  border: 1px solid green;
+  text-align: center;
+  text-decoration: none;
+padding: .5rem;
+border-radius:1rem;
+}
+
+ul {
+    list-style-type: none;
+    display: flex;
+    justify-content: center;
+    gap:2rem;
+}
