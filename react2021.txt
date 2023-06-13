@@ -1,6 +1,6 @@
 -- 1 React Intro --
 
-	- shift from class-based components to function based stateless components
+	- shift from class-based components to function-based stateless components
 	
 	
 	React: JS library for building user interface
@@ -11,26 +11,80 @@
 				
 			2) "react-dom" script
 				- converts virtual DOM to actual HTML components on page
-				
+			
+			* When people talk about React, it involves these 2 scripts
+			
 	ReactNative: 
 		- "react" script & "react-native" script
 		- converts virtual DOM to native components for ios & android 
 		
 	
-	- Starting React Project -
-		1) Create empty directory
-		2) npx create-react-app <projectName> --use-npm / --use-yarn (optional)
-			- gives: "react", "react-dom", "react-scripts"
-				- "react-scripts": To help run production build for project
+
+== Starting React Project ==
+	- Can use CDN but recommended to create react project
+
+Steps:
+
+	1) Create empty directory for project
+	2) npx create-react-app <projectDirName> --use-npm | --use-yarn (optional flag)
+		- name usually called react-app
+		- gives: "react", "react-dom", "react-scripts"
+		- "react-scripts": To help run dev / prod build for project
+			- gives webpack | babel | jest (for testing)
+				- webpack : JS Module Bundler, bundle JS files for use in browser
+				- babel : JS compiler to ensure compatibility with older browsers
+		- installs many other modules into node_modules
+				
 				
 				
 	- Project info -
 	
-	"src" folder: Where all the scripts reside
-		*.test.js: called when running tests
+		"src" folder: Where all the scripts resides
+			*.test.js: called when running tests
+			
+		scripts:
+			- npm start: start react project in browser
+			- npm build: Create production version (need another server to launch)
+			- npm test: to use jest to run test on scripts
+			- npm eject: removes all default packages to create own customized build
+			
+			
+		"index.html" inside "public" dir:
+			- <div id="root"></div> : Location where all components will be placed
 		
-	scripts:
-		- npm start: start react project in browser
-		- npm build: Create production version (need another server to launch)
-		- npm test: to use jest to run test on scripts
-		- npm eject: removes all default packages to create own customized build
+		* Components are placed inside "src" dir
+			- index.js : File where components are rendered
+				- id="root" is targetted
+				
+				== 2 methods to render components ==
+				
+				
+				// Method 1 
+				ReactDOM.render(
+					<React.StrictMode> // React fragments to prevent HTML tag clutter
+						<App />
+					</React.StrictMode>,
+					document.getElementById('root')
+				);
+				
+				
+				// Method 2
+				const root = ReactDOM.createRoot(document.getElementById('root'));
+				root.render(					
+				<React.StrictMode> // React fragments to prevent HTML tag clutter
+					<App />
+				</React.StrictMode>
+				);
+				
+				
+			- App.js : <App> component
+				* Inside App component, any links (img / css files etc.) are imported
+					- so that Webpack, after building project, knows where the files are located 
+					
+
+Creating production build:
+	- files are more compress compared to dev build
+		1) npm run build (build dir created)
+		2) npx serve -s build (might need to install "serve" module)
+			- files will be more compressed & optimized
+			- no longer show components in React devtools in browser
