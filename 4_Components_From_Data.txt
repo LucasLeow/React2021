@@ -1,0 +1,50 @@
+Creating components with data:
+
+== Lesson Overall Idea ==
+	- Convert array of data into array of component
+	- typically given array of objects, containing links
+		- want to create <Link /> component using .map() function
+	
+	eg:
+		- Having ul of lis (for navbar)
+	
+	- using .map((item, idx, array)=> {
+		...
+	}) fn
+	
+	
+	== Set up ==
+	1) Create "Link" dir in "components" dir
+	2) Inside App.js, remove all attributes related to props
+	3) Create Link.js & Link.css inside "Link" dir
+	4) Go to Nav.js
+		
+	import "./Nav.css";
+	import Link from "../Link/Link";
+	
+	export default function Nav() {
+	
+		const links = [
+			{title: "Films", url:"https://swapi.dev/api/films"},
+			{title: "People", url:"https://swapi.dev/api/people"},
+			{title: "Planets", url:"https://swapi.dev/api/planets"}
+		];
+	
+		return (
+			<nav>
+				{links.map((obj) => (
+					<Link item={obj} key={obj.title} />
+				))}
+			</nav>
+		)
+	}
+	
+	
+	5) Go to Link.js
+	
+		
+	export default function Link(props) {
+		return (
+			<a href={props.item.url} target="_blank"> {props.item.title} </a>
+		)
+	}

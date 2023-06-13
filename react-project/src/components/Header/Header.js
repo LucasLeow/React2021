@@ -1,11 +1,11 @@
 import "./Header.css";
 import Nav from "../Nav/Nav";
 
-export default function Header(props) {
+export default function Header() {
     return (
         <header className="header1">
             <Nav />
-            {props.company}
+            
         </header>
     )
 }
