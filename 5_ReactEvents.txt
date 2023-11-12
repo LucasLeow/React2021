@@ -44,8 +44,8 @@
 		- e.type (Event type)
 
 
-	** React Event Listener should be added to HTML content (HTML tags)
-	** Never add to React Components (<Header /> or <Nav /> etc.)
+	** React Event Listener should be added to HTML content (HTML tags) within JSX of the component
+	** Never add to React Components (<Header /> or <Nav /> etc.) typically in App.js
 		
 		
 	1) Create "SearchBar" dir in "components" dir

@@ -1,13 +1,18 @@
-== Components in React ==
+Keywords:
+	- Components in React 
+	- React "props" concept 
 
+
+
+== Components in React ==
 	- User Interface in React = Sum of all React Components
-	
 	- Components are JS functions that return JSX expressions
-	
 	- Function-based Components (Current) & Class-based Components (Past)
+	- Each component typically have 2 files:
+		- .js file (main logic)
+		- .css file (to style component)
 	
-	
-	
+
 2 ways to export function-based Components:
 
 		1) 
@@ -23,12 +28,11 @@
 			
 			export default App;
 			
-			
-			
 
 == Typical way of doing things ==
 
 	1) App.js (App Component) used to compile the different components
+		- all other components imported into App Component (Root component)
 	2) index.js will only render App.js
 	
 				Inside App.js: (Integration for all components)
@@ -51,9 +55,7 @@
 		(Can also create App folder and place App.js & App.css inside)
 	
 
-
 		Inside Header.js:
-		
 		
 		import "./Header.css";
 		import Nav from "../Nav/Nav";
@@ -96,7 +98,6 @@
 		}
 		
 		
-		
 		Inside Nav.css:
 		
 		a:link, a:visited {
@@ -119,8 +120,6 @@
 
 
 
-
-
 == React "props" concept ==
 
 	- properties passed from parent component to child component
@@ -131,11 +130,21 @@
 		
 	- inside parent, props passed as attribute in html tag: <Header newProp={"myProp"}/>
 		- newProp is arbitrary name
+		- "myProp" is a string passed to child. In reality, prop can be of any type, typically JS Object
 	
-	- inside child, props received as argument in component function: function Header(props) 	{props.newProp}
-		- props is naming convention
+	- inside child, props received as argument in component function
+	- eg: function Header(props) 	
+			return (
+				<div>
+					{props.newProp}
+				</div>
+				)
+
+		- props is naming convention, can actually be any other name
 		
 		
+		Worked example:
+
 		Inside App.js: (Passing Prop to child <Header>)
 		
 			import './App.css';
@@ -155,7 +164,6 @@
 			export default App;
 		
 		
-
 		Inside Header.js (Property received from parent <App>)
 		
 		import "./Header.css";
@@ -170,16 +178,17 @@
 			)
 		}
 		
-		
-		
+	
+
 	== Prop Drilling ==
-		- Passing of props down the hierarchy
+		- Passing of props down the DOM hierarchy
 		
 		eg:
 		
 		In App.js
 		
-			<Header name="Lucas"/>
+			// Header component
+			<Header name="Lucas"/> 
 		
 		In Header.js
 		
@@ -198,7 +207,7 @@
 			}
 			
 			
-		* May become complicated it many props involved
+		* May become complicated if many props involved
 			- context-api can be used to resolve this issue
 		
 	

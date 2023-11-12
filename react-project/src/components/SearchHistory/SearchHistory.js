@@ -1,15 +1,18 @@
+import List from "../List/List";
 import "./SearchHistory.css";
 
 export default function SearchHistory(props) {
+    const { searches } = props;
+    let formattedData = searches.map((item, idx) => {
+        return {
+            ref: idx,
+            title: item,
+            txt: null
+        }
+    })
     return (
-        <>
-        <h4>Search History</h4>
-        <ul>
-            {props.searches.map((search,idx) => (
-                <li key={idx}>{search}</li>
-            ))}
-        </ul>
-        </>
-
+        <div className="history">
+            <List data={ formattedData } />
+        </div>
     )
 }

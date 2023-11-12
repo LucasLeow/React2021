@@ -1,0 +1,182 @@
+== App project ==
+    - not just about coding
+    - code planning + structuring equally important
+    - consider code reusability
+
+    * Useful Tip: (To check for null, else display content in JSX)
+    {props.term && <p>You searched for {props.term}</p>}
+
+    * Regarding fetching of data:
+        - if data used only in single component, then use fetch() in that component
+        - if data used across multiple components, best to fetch() in parent component
+
+
+
+-- Typical Common Components --
+    - List Component
+        - to iterate through arrays to output list info.
+        - several components may require such functionality
+
+
+
+        1) create "List" & ListItem" component (dir + js + css)
+            - refer to project files for css content
+
+
+        2) Go to App.js to implement the searching function + refactor
+            - i.e, currently is fetching list of movie titles
+                2.1) Want to have a more generic function to fetchData, not just for films but for "People" & "Planets"
+                2.1) when search for terms in movie title, want to filter for movies with words within
+
+                        const [searchType, setSearchType] = useState('films'); // default 'film' search
+
+
+                        async function fetchData(searchKeyword) {
+                            let url = `https://swapi.dev/api/${searchType}`;
+                            if (searchKeyword) {
+                                url += `/?search=${searchKeyword}`;
+                            }
+
+                            let res = await fetch(url);
+                            if(!res.ok) throw new Error(res.statusText);
+
+                            let data = await res.json();
+                            setResults(data.results);
+                        }
+
+                
+                2.2) Want to remove duplicated terms
+
+                function appendHistory(term) {
+                    let newTerms = new Set([term, ...search]);
+                    setSearch(Array.from(newTerms)); // convert Set of new terms back to array format
+                }
+
+
+        3) Both SearchHistory & SearchResult utilize "List" to display results
+            - currently, both receiving info from App.js as array format 
+
+                eg: inside App.js
+
+                function appendHistory(term) {
+                    let newTerms = new Set([term, ...search]); // Set remove duplicates
+                    setSearch(Array.from(newTerms)) // convert Set of new terms back to array format
+                    fetchData(term);
+                    }
+
+                async function fetchData(searchKeyword) {
+                let url = `https://swapi.dev/api/${searchType}`;
+                if (searchKeyword) {
+                url += `/?search=${searchKeyword}`
+                }
+                let res = await fetch(url);
+                if (!res.ok) throw new Error(res.statusText);
+                let data = await res.json();
+                setResults(data.results);
+                }
+
+                useEffect(() => {
+                console.log("initial render complete, fetching data");
+                fetchData();
+                }, []);
+
+                return (
+
+                        <main className='content'>
+                            <SearchHistory searches={search}/>
+                            <SearchResults results={results} />
+                        </main>
+                )
+
+                3.1) Go to SearchResults Component
+                    - want to use <List /> component
+                    - need to pass data to <List /> component
+                    - Data is passed from App component
+                    - need to pass type of data passed (Films, People or Planets) (different API have different format)
+
+
+                            From App.js:
+                                <SearchResults results={results} type={searchType}/>
+                                <SearchHistory searches={search}/>
+
+                            Go to SearchResults.js (need to consider type searched)
+                                - different type of search call to API returns different results, thus data must be formatted differently
+                                - need to use useState to store search type in parent App component and passed to child SearchResult here
+
+                                export default function SearchResults(props) {
+                                    let { results, type } = props  // destructuring results & type key in props obj
+                                    let formattedData = results.map((item, idx) => {
+                                        let obj = {
+                                            original: item
+                                        };
+                                        switch(type) {
+                                            case 'films':
+                                                obj.ref = item.episode_id; //episode_id, title & release_date are keys returned from the API (fetched and passed from  parent App.js)
+                                                obj.title = item.title;
+                                                obj.txt = item.release_date;
+                                                break;
+                                            case 'people':
+                                                break;
+                                            case 'planets':
+                                                break;
+                                            default:
+                                                console.log("default caught");
+                                                break;
+                                        }
+                                    return obj;
+                                    })
+
+                                    return(
+                                                <div class="results">
+                                                    <List data={formattedData}/> 
+                                                </div>
+                                    );
+                                }
+
+                    3.2) Go to List Component
+
+                            - props is passed from SearchResults as formattedData (which is an object with original, ref, title, txt key)
+                            export default function List(props) {
+                            console.log(props);
+                            return (
+                                <ul className="list">
+                                    {props.data.map((item, idx) => (
+                                        <ListItem key={item.ref} data={item}/>
+                                    ))}
+                                </ul>
+                            )
+                        }
+
+                        3.3) Go to ListItem Component
+
+                        export default function ListItem(props) {
+                        const { data } = props; // destructuring data key in props obj
+                        console.log(data.txt);
+                        return (
+                            <li className="listitem" data-ref={data.ref}>
+                                <h2 className="title">{data.title}</h2>
+                                { data.txt && <p>{data.txt}</p>}
+                            </li>
+                        );
+                    }
+
+
+                    3.4) Go to SearchHistory Component to add List Component
+
+                        export default function SearchHistory(props) {
+                            const { searches } = props; // destructuring "searches" key from props
+
+                            let formattedData = searches.map((item, idx) => {
+                                return {
+                                    ref: idx,
+                                    title: item,
+                                    txt: null
+                                };
+                            })
+                            return (
+                                <div className="history">
+                                    <List data={ formattedData }/>
+                                </div>
+                            )
+                        }
+

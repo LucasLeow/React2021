@@ -1,0 +1,114 @@
+-- useEffect hook --
+	* the Effect hook, use is just a convention prefix
+	- Perform side logic in components after rendering complete
+		- set timer to run
+		- fetch data from API
+		- connect do DB
+		- perform some arithmetic operation etc.
+	* Cannot perform any operations until after initial render of component
+
+
+import { useEffect } from 'react';
+
+useEffect(() => {
+	console.log("running a function after rendering component");
+}, []);
+
+	- 2nd argument: dependency array
+		- used to specify what to track, where any changes will cause useEffect to run again
+		- if empty array [], will only run on initial render
+		- if put state or any valid variable within array, any changes in array will cause useEffect to run
+			eg:
+				- useEffect(() => {
+					console.log("tracking films state change);
+				}, [films])
+
+				* anytime films value changes, useEffect is triggered
+
+				- useEffect(() => {
+					console.log("tracking props state change);
+				}, [props.film])
+
+				* anytime props.film value changes, useEffect is triggered
+
+			** If no dependency array added, useEffect will run for initial render + any changes in props / state / routing etc.
+
+
+example demo: (using useEffect to fetch JSON data from URL)
+
+	1) create SearchResults Component
+		- SearchResults dir + js + css
+
+					import './SearchResults.css';
+					export default function SearchResults(props) {
+
+						return (
+							<ul className="filmResults">
+								{ props.films.map (film => (
+									<li key={film.episode_id}> {film.title} </li>
+								))}
+							</ul>
+						)
+					}
+
+		2) go to App.js
+
+				import './App.css';
+				import Header from "../Header/Header";
+				import SearchBar from "../SearchBar/SearchBar";
+				import SearchHistory from '../SearchHistory/SearchHistory';
+				import SearchResults from '../SearchResults/SearchResults'; // newly added
+				import { useState, useEffect } from "react"; // newly added
+
+				function App() {
+				const [search, setSearch] = useState([]);
+				const [films, setFilms] = useState([]); // newly added
+
+				function appendHistory(term) {
+				setSearch([term, ...search]) // add term into existing search array
+				}
+
+				async function fetchData(type) { // newly added
+				let url = `https://swapi.dev/api/${type}`;
+
+				let res = await fetch(url); 
+				if (!res.ok) throw new Error(res.statusText);
+				let data = await res.json();
+				setFilms(data.results);
+				}
+
+				useEffect(() => { // newly added
+				console.log("initial render complete, fetching data");
+				fetchData('films');
+				}, []);
+
+				return (
+					<div className="App">
+						<Header />
+						<SearchBar term={search[0]} addTerm={appendHistory}/>
+						<SearchHistory searches={search}/>
+						<SearchResults films={films} /> // newly added
+					</div>
+				);
+				}
+
+				export default App;
+
+
+
+	
+== useEffect clean-up function ==
+	- function returned by useEffect
+	- useEffect can only return function
+	- this function is known as clean-up function
+		- delete some old data
+		- empty something from database / local storage
+
+	eg:
+
+	useEffect(() => {
+		fetchData(terms[0]);
+		return () => {
+
+		}
+	}, [terms]);

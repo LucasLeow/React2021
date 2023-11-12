@@ -1,5 +1,10 @@
--- 1 React Intro --
+Keywords
+	- Starting React Project
+	- React Project info
+	- 2 methods to render components 
 
+
+-- 1 React Intro --
 	- shift from class-based components to function-based stateless components
 	
 	
@@ -23,23 +28,25 @@
 == Starting React Project ==
 	- Can use CDN but recommended to create react project
 
-Steps:
-
 	1) Create empty directory for project
 	2) npx create-react-app <projectDirName> --use-npm | --use-yarn (optional flag)
 		- name usually called react-app
-		- gives: "react", "react-dom", "react-scripts"
+		- generates: "react", "react-dom", "react-scripts"
 		- "react-scripts": To help run dev / prod build for project
 			- gives webpack | babel | jest (for testing)
 				- webpack : JS Module Bundler, bundle JS files for use in browser
 				- babel : JS compiler to ensure compatibility with older browsers
-		- installs many other modules into node_modules
+		- installs many other modules into node_modules (dependencies)
 				
 				
 				
-	- Project info -
+== React Project info ==
+	- What gets generated inside the project directory
 	
 		"src" folder: Where all the scripts resides
+			- "components" dir to contain all the component
+				- App: root component to render all other component, then injected into index.html
+
 			*.test.js: called when running tests
 			
 		scripts:
@@ -51,15 +58,27 @@ Steps:
 			
 		"index.html" inside "public" dir:
 			- <div id="root"></div> : Location where all components will be placed
+			- inside index.js : root.render(<App />)
+				- will look to App.js to look for info
+				- all components will be inside App.js
+				eg: 
+				    <div className="App">
+						<Header />
+						<SearchBar term={search[0]} addTerm={appendHistory}/>
+						<SearchHistory searches={search}/>
+					</div>
+		
 		
 		* Components are placed inside "src" dir
 			- index.js : File where components are rendered
 				- id="root" is targetted
+					const root = ReactDOM.createRoot(document.getElementById('root'));
+					- will search in index.html for id="root"
 				
-				== 2 methods to render components ==
+
+== 2 methods to render components ==
 				
-				
-				// Method 1 
+				// Method 1:
 				ReactDOM.render(
 					<React.StrictMode> // React fragments to prevent HTML tag clutter
 						<App />
@@ -68,7 +87,7 @@ Steps:
 				);
 				
 				
-				// Method 2
+				// Method 2:
 				const root = ReactDOM.createRoot(document.getElementById('root'));
 				root.render(					
 				<React.StrictMode> // React fragments to prevent HTML tag clutter
@@ -77,9 +96,9 @@ Steps:
 				);
 				
 				
-			- App.js : <App> component
-				* Inside App component, any links (img / css files etc.) are imported
-					- so that Webpack, after building project, knows where the files are located 
+- App.js : <App> component (root component)
+	* Inside App component, any links (img / css files etc.) are imported
+		- so that Webpack, after building project, knows where the files are located 
 					
 
 Creating production build:

@@ -1,12 +1,14 @@
 Creating components with data:
 
 == Lesson Overall Idea ==
-	- Convert array of data into array of component
+	- Convert array of data into array of component to display on webpage
 	- typically given array of objects, containing links
 		- want to create <Link /> component using .map() function
 	
 	eg:
 		- Having ul of lis (for navbar)
+		- have an array of links
+		- want to create multi <li> based on items in array
 	
 	- using .map((item, idx, array)=> {
 		...
@@ -16,7 +18,7 @@ Creating components with data:
 	== Set up ==
 	1) Create "Link" dir in "components" dir
 	2) Inside App.js, remove all attributes related to props
-	3) Create Link.js & Link.css inside "Link" dir
+	3) Create Link.js & Link.css inside "Link" Component dir
 	4) Go to Nav.js
 		
 	import "./Nav.css";
@@ -32,8 +34,8 @@ Creating components with data:
 	
 		return (
 			<nav>
-				{links.map((obj) => (
-					<Link item={obj} key={obj.title} />
+				{links.map((obj, idx) => (
+					<Link item={obj} key={idx} />
 				))}
 			</nav>
 		)
@@ -42,9 +44,9 @@ Creating components with data:
 	
 	5) Go to Link.js
 	
-		
 	export default function Link(props) {
 		return (
 			<a href={props.item.url} target="_blank"> {props.item.title} </a>
 		)
+		// target="_blank" will open link in new tab
 	}

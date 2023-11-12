@@ -1,4 +1,4 @@
-- functional components can have states
+- functional components (JS Components returning JSX) can have states
 
 - in class-based components, had a component called this.state
 	- causes react DOM to re-render whenever this.state changes value
@@ -9,7 +9,6 @@
 	
 	
 == useState hook usage ==
-
 
 	1) Go to desired component that requires implementation of state
 		- import { useState } from "react";
@@ -40,7 +39,7 @@
 					<form onSubmit={submitForm}>
 						<input type="text" name="searchContent" className="searchText" placeholder="keyword" onFocus={searchFocus} onInput={(ev) => inputChange(ev)}></input>
 						<button type="submit" className="searchBtn" name="searchBtn" onClick={buttonClicked}>Search</button>
-						{search?<p>You searched for {search}</p> : ''}
+						{search ? <p>You searched for {search}</p> : ''}
 					</form>
 				</section>
 			)
@@ -48,14 +47,14 @@
 					
 			
 == Lifting State ==
-	* Must be used in order to utilize state in multiple components
+	* used to utilize state in multiple components
 	
 	- Idea: Declare all states in parent component (eg: App Component)
 	- use props to propagate value down
-	- If want to update value in parent component, write new function to update
+	- If want to update state value in parent component, write new function to update state
 		- pass function via props so that child component can use function to update state
 		
-		- if value is array (eg. used to store history, use spread operator to update)
+		- if value is array (eg. used to store history, use spread operator(...) to update)
 		- pass new function down via props, then can use child to call fn to update
 	
 	eg.

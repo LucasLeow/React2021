@@ -23,23 +23,18 @@ Setting up for lesson:
 			</div>
 		  );
 		}
-
 		export default App;
 		
 		
 == Lesson Start ==
-
 	- JSX typically written in React components
-	
 	- React Components are JS functions that return JSX expressions
 		- if multiple lines to return, need to include parenthesis
-		
 	- Function name corresponds to the React component name
-	
 	- JSX only can have 1 top-level tag (div is the top level tag), cannot have 2 <div> same level
-		i.e return (
+		i.e should only return (
 			<div> 
-			
+				...
 			</div>
 		)
 		
@@ -49,29 +44,31 @@ Setting up for lesson:
 		
 	- Naming convention of CSS properties different in JS
 		- Some names reserved keywords in JS
-			eg: <div class="container1"> in typical CSS invalid
+			eg: <div class="container1"> in typical CSS is invalid in JS
 				- "class" is reserved keyword in JS
 				- therefore, must use "className" instead
 				
 		- In general, all CSS properties with - are replaced with camel case
-		
+
 			eg:
 			CSS Property 				JavaScript Reference
-			background 					background
-			background-attachment 		backgroundAttachment
-			background-color 			backgroundColor
-			background-image 			backgroundImage
-			class						className
+			background 							  background
+			background-attachment 	   backgroundAttachment
+			background-color 				  backgroundColor
+			background-image 				backgroundImage
+			class										  className
 			
 
 == JSX Example ==
-
-	* Inside "App" component (App.js)
+	* for JSX, template string is simply `{var_name}`
+	* JSX begins from within the return statement
+	* if multiple JSX statements, must use (), not {}
+	* JSX must have 1 overall parent tag <>
 	
+
 	import "./App.css";
 	
 	function App() {
-	
 		let AppClassName = "App";
 		return (
 			<>
@@ -86,5 +83,4 @@ Setting up for lesson:
 			</>
 		)
 	}
-	
 	export default App;
